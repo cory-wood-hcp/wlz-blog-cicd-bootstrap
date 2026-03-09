@@ -66,10 +66,10 @@ resource "tfe_variable_set" "tfe_access" {
 }
 
 resource "tfe_variable" "tfe_token" {
-  category  = "env"
-  key       = "TFE_TOKEN"
-  value     = var.tfe_token
-  sensitive = true
+  category        = "env"
+  key             = "TFE_TOKEN"
+  value           = var.tfe_token
+  sensitive       = true
   variable_set_id = tfe_variable_set.tfe_access.id
 }
 
@@ -91,17 +91,17 @@ resource "tfe_variable_set" "aws_iam_access" {
 }
 
 resource "tfe_variable" "aws_iam_access_provider_auth" {
-  category  = "env"
-  key       = "TFC_AWS_PROVIDER_AUTH"
-  value     = "true"
-  sensitive = true
+  category        = "env"
+  key             = "TFC_AWS_PROVIDER_AUTH"
+  value           = "true"
+  sensitive       = true
   variable_set_id = tfe_variable_set.aws_iam_access.id
 }
 
-resource "tfe_variable" "tfe_token" {
-  category  = "env"
-  key       = "TFC_DEFAULT_AWS_RUN_ROLE_ARN"
-  value     = var.iam_run_role_arn
+resource "tfe_variable" "aws_iam_access_role_arn" {
+  category        = "env"
+  key             = "TFC_DEFAULT_AWS_RUN_ROLE_ARN"
+  value           = var.iam_run_role_arn
   variable_set_id = tfe_variable_set.aws_iam_access.id
 }
 
@@ -114,20 +114,20 @@ resource "tfe_variable_set" "aws_account_creation_access" {
 }
 
 resource "tfe_variable" "aws_account_creation_auth" {
-  category  = "env"
-  key       = "TFC_AWS_PROVIDER_AUTH"
-  value     = "true"
+  category        = "env"
+  key             = "TFC_AWS_PROVIDER_AUTH"
+  value           = "true"
   variable_set_id = tfe_variable_set.aws_account_creation_access.id
 }
 
 resource "tfe_variable" "aws_account_creation_role_arn" {
-  category  = "env"
-  key       = "TFC_DEFAULT_AWS_RUN_ROLE_ARN"
-  value     = var.account_creation_run_role_arn
+  category        = "env"
+  key             = "TFC_DEFAULT_AWS_RUN_ROLE_ARN"
+  value           = var.account_creation_run_role_arn
   variable_set_id = tfe_variable_set.aws_account_creation_access.id
 }
 
-resource "tfe_project_variable_set" "wlz_aws_create_tfe_access" {
+resource "tfe_project_variable_set" "wlz_aws_create_aws_access" {
   project_id      = tfe_project.wlz_aws_create.id
   variable_set_id = tfe_variable_set.aws_account_creation_access.id
 }
