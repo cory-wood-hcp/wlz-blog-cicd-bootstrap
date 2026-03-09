@@ -46,7 +46,7 @@ resource "tfe_workspace" "intake_workspace" {
   project_id = tfe_project.wlz_root.id
 
   vcs_repo {
-    identifier                 = "wlz-blog-intake-aws"
+    identifier                 = "${var.github_owner}/wlz-blog-intake-aws"
     branch                     = "main"
     github_app_installation_id = "ghain-SLYobWzLuoVpgtrh"
   }

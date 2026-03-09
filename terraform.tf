@@ -14,7 +14,7 @@ terraform {
 }
 
 provider "github" {
-  owner = "cory-wood-hcp"
+  owner = var.github_owner
 }
 
 provider "tfe" {}
