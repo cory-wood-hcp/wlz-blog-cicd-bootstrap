@@ -1,21 +1,21 @@
 resource "tfe_project" "wlz_root" {
   organization = var.tfe_organization
-  name = "wlz-root"
+  name         = "wlz-root"
 }
 
 resource "tfe_project" "wlz_aws_create" {
   organization = var.tfe_organization
-  name = "wlz-aws-create"
+  name         = "wlz-aws-create"
 }
 
 resource "tfe_project" "wlz_aws_operate" {
   organization = var.tfe_organization
-  name = "wlz-aws-operate"
+  name         = "wlz-aws-operate"
 }
 
 resource "tfe_project" "wlz_aws_sandbox" {
   organization = var.tfe_organization
-  name = "wlz-aws-sandbox"
+  name         = "wlz-aws-sandbox"
 }
 
 #Create a github repository which will be used for intake and attached to the intake workspace
@@ -46,33 +46,34 @@ resource "tfe_workspace" "intake_workspace" {
   project_id = tfe_project.wlz_root.id
 
   vcs_repo {
-    identifier     = "wlz-blog-intake-aws"
-    branch         = "main"
+    identifier                 = "wlz-blog-intake-aws"
+    branch                     = "main"
     github_app_installation_id = "ghain-SLYobWzLuoVpgtrh"
   }
 
   tags = {
-   role = "intake"
+    role    = "intake"
     service = "wlz-vending"
   }
 }
 
 #Create variable set to provide TFE access to workspaces which will be managing TFE resources. These workspaces will be in the root and creation projects.
-resource tfe_variable "tfe_token" {
-  category = "env"
-  key      = "TFE_TOKEN"
-    value    = var.tfe_token
-    sensitive = true
+resource "tfe_variable_set" "tfe_access" {
+  name         = "tfe_access"
+  organization = var.tfe_organization
+  global       = false
 }
 
-resource tfe_variable_set "tfe_access" {
-    name = "tfe_access"
-    organization = var.tfe_organization
-  global = false
+resource "tfe_variable" "tfe_token" {
+  category  = "env"
+  key       = "TFE_TOKEN"
+  value     = var.tfe_token
+  sensitive = true
+  variable_set_id = tfe_variable_set.tfe_access.id
 }
 
 resource "tfe_project_variable_set" "wlz_root_tfe_access" {
-  project_id = tfe_project.wlz_root.id
+  project_id      = tfe_project.wlz_root.id
   variable_set_id = tfe_variable_set.tfe_access.id
 }
 
