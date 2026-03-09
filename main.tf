@@ -55,6 +55,7 @@ resource "tfe_workspace" "intake_workspace" {
     role    = "intake"
     service = "wlz-vending"
   }
+  depends_on = [github_repository.intake_repository]
 }
 
 #Create variable set to provide TFE access to workspaces which will be managing TFE resources. These workspaces will be in the root and creation projects.
